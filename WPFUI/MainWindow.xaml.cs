@@ -17,14 +17,15 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameSession _gameSession;
+        private GameSession _gameSession; // create private variable
         public MainWindow()
         {
             InitializeComponent();
 
-            _gameSession = new GameSession();
+            _gameSession = new GameSession(); //create new game session and assign it to the varible we created
 
             DataContext = _gameSession; // This will be the source of data for the databinding we do
+
         }
     }
 }
