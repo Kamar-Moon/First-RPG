@@ -27,5 +27,25 @@ namespace WPFUI
             DataContext = _gameSession; // This will be the source of data for the databinding we do
 
         }
+
+        private void OnClick_MoveNorth(Object sender, RoutedEventArgs e)
+        {
+            _gameSession.MoveNorth();
+        }
+
+        private void OnClick_MoveWest(Object sender, RoutedEventArgs e)
+        {
+            _gameSession.MoveWest();
+        }
+
+        private void OnClick_MoveEast(Object sender, RoutedEventArgs e)
+        {
+            _gameSession.MoveEast();
+        }
+
+        private void OnClick_MoveSouth(Object sender, RoutedEventArgs e)
+        {
+            _gameSession.MoveSouth();
+        }
     }
 }
