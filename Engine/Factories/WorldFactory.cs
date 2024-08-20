@@ -38,6 +38,8 @@ namespace Engine.Factories
             newWorld.AddLocation(0, 1, "Herbalist's Hut", "A small quaint hut that has herbs drying from the roof.",
                 "pack://application:,,,/Engine;component/Images/Locations/HerbalistsHut.png");
 
+            newWorld.LocationAt(0, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestID(1)); //no need for temp variable
+
             newWorld.AddLocation(0, 2, "Herbalist's Garden", "There are many mysterious plants here, watch out, snakes are hiding in them!",
                "pack://application:,,,/Engine;component/Images/Locations/HerbalistsGarden.png");
 
