@@ -15,7 +15,7 @@ namespace Engine.Factories
             {
                 case 1:
                     Monster snake =
-                        new Monster("snake", "Snake.png", 4, 4, 5, 1);
+                        new Monster("Snake", "Snake.png", 4, 4, 5, 1);
                     AddLootItem(snake, 9001, 25); // 25% chance that snake will drop snake fang item
                     AddLootItem(snake, 9002, 75);
 
