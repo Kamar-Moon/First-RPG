@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Engine.EventArgs;
 using Engine.ViewModels;
 
 namespace WPFUI
@@ -18,11 +19,14 @@ namespace WPFUI
     public partial class MainWindow : Window
     {
         private GameSession _gameSession; // create private variable
+        //Game session = View Model
         public MainWindow()
         {
             InitializeComponent();
 
             _gameSession = new GameSession(); //create new game session and assign it to the varible we created
+
+            _gameSession.OnMessageRaised += OnGameMessageRaised;
 
             DataContext = _gameSession; // This will be the source of data for the databinding we do
 
@@ -46,6 +50,13 @@ namespace WPFUI
         private void OnClick_MoveSouth(Object sender, RoutedEventArgs e)
         {
             _gameSession.MoveSouth();
+        }
+
+        // ViewModel can send messages, we need the View to watch for these messages – “subscribe” to the eventhandler.
+        private void OnGameMessageRaised(Object sender, GameMessagesEventArgs e)
+        {
+            GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+            GameMessages.ScrollToEnd(); // user can always see the latest message
         }
     }
 }

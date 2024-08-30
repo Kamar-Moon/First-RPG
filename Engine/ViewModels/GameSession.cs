@@ -6,12 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Engine.Models;
 using Engine.Factories;
+using Engine.EventArgs;
 using System.Collections.Specialized;
 
 namespace Engine.ViewModels
 {
     public class GameSession : BaseNotificationClass
     {
+        public event EventHandler<GameMessagesEventArgs> OnMessageRaised; //This is how the View “subscribes” to the event
+                                                                          //GameMessageEventArgs which tells the subscribers what type
+                                                                          //of event arguments to look for, so they can use the data
+                                                                          //passed in the event.
+
         private Location _currentLocation;
         private Monster _currentMonster;
         public Player CurrentPlayer { get; set; } 
@@ -44,6 +50,12 @@ namespace Engine.ViewModels
                 _currentMonster = value;
                 OnPropertyChanged(nameof(CurrentMonster));
                 OnPropertyChanged(nameof(HasMonster));
+
+                if(CurrentMonster != null)
+                {
+                    RaiseMessage(""); // Create a blank line between messages
+                    RaiseMessage($"You see a {CurrentMonster.Name} here!");
+                }
             }
         }
 
@@ -147,6 +159,14 @@ namespace Engine.ViewModels
         private void GetMonsterAtLocation()
         {
             CurrentMonster = CurrentLocation.GetMonster();
+        }
+
+        // The code checks if OnMessageRaised has any subscribers (it will be “null”, if there are no subscribers).
+        // If there are subscribers, it will invoke the event, passing a new GameMessageEventArgs object that has
+        // the desired message text.
+        private void RaiseMessage(string message)
+        {
+            OnMessageRaised?.Invoke(this, new GameMessagesEventArgs(message));
         }
 
     }

@@ -29,7 +29,7 @@
         <!-- Main Menu -->
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Menu" Background="AliceBlue"/>
         
-        <!-- PLayer Info Grid -->
+        <!-- PLayer Stats -->
         <Label Grid.Row="1" Grid.Column="0" Content="Player Data" Background="LavenderBlush"/>
         <Grid Grid.Row="1" Grid.Column="0" Background="LavenderBlush">
             <Grid.RowDefinitions>
@@ -60,7 +60,7 @@
             <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Level}"/>
         </Grid>
 
-           <!-- Location Info-->
+           <!-- Gameplay-->
         <Grid Grid.Row="1" Grid.Column="1"
               Background="Bisque">
 
@@ -73,8 +73,27 @@
                 <ColumnDefinition Width="3*" /> <!-- Devide into fifths-->
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
+            
+            <!-- Game Messages -->
+            <Border Grid.Row="0" Grid.Column="0" 
+                    Grid.RowSpan="2"
+                    BorderBrush="Gainsboro"
+                    BorderThickness="1">
 
-            <Border Grid.Row="0" Grid.Column="1" BorderBrush="DarkGray"  BorderThickness="1">
+                <RichTextBox x:Name="GameMessages"
+                             Background="Beige"
+                            VerticalScrollBarVisibility="Auto">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/> <!-- So there is no extra space between messages.-->
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+            
+            <!-- Location Info -->
+
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro"  BorderThickness="1">
 
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
