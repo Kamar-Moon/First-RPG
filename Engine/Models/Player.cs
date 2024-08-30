@@ -74,6 +74,9 @@ namespace Engine.Models
         }
 
         public ObservableCollection<GameItem> Inventory { get; set; }
+
+        public List<GameItem> Weapons => Inventory.Where(i => i is Weapon).ToList(); //return inventory items where the
+                                                                                     //item is a weapon. ToList return item
         
         public ObservableCollection<QuestStatus> Quests { get; set; }
 
@@ -81,6 +84,13 @@ namespace Engine.Models
         {
             Inventory = new ObservableCollection<GameItem>(); 
             Quests = new ObservableCollection<QuestStatus>();
+        }
+
+        public void AddItemToInventory(GameItem item)
+        {
+            Inventory.Add(item);
+
+            OnPropertyChanged(nameof(Weapons));
         }
     }
 }

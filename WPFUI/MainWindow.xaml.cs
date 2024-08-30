@@ -52,6 +52,11 @@ namespace WPFUI
             _gameSession.MoveSouth();
         }
 
+        private void OnClick_AttackMonster(object sender, RoutedEventArgs e)
+        {
+            _gameSession.AttackCurrentMonster();
+        }
+
         // ViewModel can send messages, we need the View to watch for these messages – “subscribe” to the eventhandler.
         private void OnGameMessageRaised(Object sender, GameMessagesEventArgs e)
         {

@@ -59,6 +59,8 @@ namespace Engine.ViewModels
             }
         }
 
+        public Weapon CurrentWeapon { get; set; } // what wepaon does the player currently have selected.
+
 
         public bool HasLocationToNorth
         {
@@ -105,6 +107,11 @@ namespace Engine.ViewModels
                                 ExperiencePoints = 0,
                                 Level = 1
                             };
+
+            if(!CurrentPlayer.Weapons.Any())
+            {
+                CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001)); // Give the Player a pointy stick to start off
+            }
 
             CurrentWorld = WorldFactory.CreateWorld();
 
@@ -159,6 +166,66 @@ namespace Engine.ViewModels
         private void GetMonsterAtLocation()
         {
             CurrentMonster = CurrentLocation.GetMonster();
+        }
+
+        public void AttackCurrentMonster()
+        {
+            if (CurrentWeapon == null)
+            {
+                RaiseMessage("You must select a weapon to attack, silly.");
+                return; // Gaurd Clause or early escape
+            }
+            // If you do have a weapon proceed...
+            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
+            if(damageToMonster == 0)
+            {
+                RaiseMessage($"You missed the {CurrentMonster.Name}.");
+            }
+            else
+            {
+                CurrentMonster.HitPoints -= damageToMonster;
+                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
+            }
+            // If monster is killed, collect the rewards and loot.
+            if (CurrentMonster.HitPoints <= 0)
+            {
+                RaiseMessage(""); // give a break between messages
+                RaiseMessage($"You defeated the {CurrentMonster.Name}!");
+                CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
+                RaiseMessage($"You recived {CurrentMonster.RewardExperiencePoints} experience points!");
+                CurrentPlayer.Gold += CurrentMonster.RewardGold;
+                RaiseMessage($"You recived {CurrentMonster.RewardGold} gold!");
+                foreach (ItemQuantity itemQuantity in CurrentMonster.Inventory)
+                {
+                    GameItem item = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+                    CurrentPlayer.AddItemToInventory(item);
+                    RaiseMessage($"You recived {itemQuantity.Quantity} {item.Name}.");
+                }
+                // Get another monster to Fight
+                GetMonsterAtLocation();
+            }
+            else
+            {
+                // If the monster is still alive, let the monster attack
+                int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MiniumumDamge, CurrentMonster.MaximumDamage);
+                if (damageToPlayer == 0)
+                {
+                    RaiseMessage("The Monster attcks, but misses you. Lucky!");
+                }
+                else
+                {
+                    CurrentPlayer.HitPoints -= damageToPlayer;
+                    RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points!");
+                }
+                // If the PLayer is Killed, move them back to their home + heal them.
+                if (CurrentPlayer.HitPoints <= 0)
+                {
+                    RaiseMessage("");
+                    RaiseMessage($"The {CurrentMonster.Name} killed you.");
+                    CurrentLocation = CurrentWorld.LocationAt(0, -1); //Player's home
+                    CurrentPlayer.HitPoints = CurrentPlayer.Level * 10; // Comepletely heal player
+                }
+            }
         }
 
         // The code checks if OnMessageRaised has any subscribers (it will be “null”, if there are no subscribers).
