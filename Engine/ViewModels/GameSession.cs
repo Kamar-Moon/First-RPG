@@ -61,38 +61,22 @@ namespace Engine.ViewModels
 
         public Weapon CurrentWeapon { get; set; } // what wepaon does the player currently have selected.
 
+        // Has location Properties, can you move in that direction at the current location.
+        public bool HasLocationToNorth =>
+            CurrentWorld.LocationAt(CurrentLocation.xCoordinate, CurrentLocation.yCoordinate + 1) != null;
 
-        public bool HasLocationToNorth
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.xCoordinate, CurrentLocation.yCoordinate + 1) != null;
-            }
-        } 
 
-        public bool HasLocationToEast
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.xCoordinate + 1, CurrentLocation.yCoordinate) != null;
-            }
-        }
+        public bool HasLocationToEast =>
+            CurrentWorld.LocationAt(CurrentLocation.xCoordinate + 1, CurrentLocation.yCoordinate) != null;
 
-        public bool HasLocationToWest
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.xCoordinate - 1, CurrentLocation.yCoordinate) != null;
-            }
-        }
 
-        public bool HasLocationToSouth
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.xCoordinate, CurrentLocation.yCoordinate - 1) != null;
-            }
-        }
+        public bool HasLocationToWest => 
+            CurrentWorld.LocationAt(CurrentLocation.xCoordinate - 1, CurrentLocation.yCoordinate) != null;
+
+
+        public bool HasLocationToSouth => 
+            CurrentWorld.LocationAt(CurrentLocation.xCoordinate, CurrentLocation.yCoordinate - 1) != null;
+       
 
         public bool HasMonster => CurrentMonster != null;  // Doing => is the same as doing HasLocation gets above
 

@@ -18,13 +18,11 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameSession _gameSession; // create private variable
+        private readonly GameSession _gameSession = new GameSession(); // create private variable
         //Game session = View Model
         public MainWindow()
         {
             InitializeComponent();
-
-            _gameSession = new GameSession(); //create new game session and assign it to the varible we created
 
             _gameSession.OnMessageRaised += OnGameMessageRaised;
 
