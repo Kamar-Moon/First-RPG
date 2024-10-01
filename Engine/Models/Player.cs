@@ -92,5 +92,29 @@ namespace Engine.Models
 
             OnPropertyChanged(nameof(Weapons));
         }
+
+        // Function to remove items from player's inventory - used when player completes quest
+        public void RemoveItemFromInventory(GameItem item)
+        {
+            Inventory.Remove(item);
+            OnPropertyChanged(nameof(Weapons)); // incase we remove a weapon
+        }
+
+        public bool HasAllTheseItems(List<ItemQuantity> items)
+        {
+            foreach (ItemQuantity item in items)
+            {
+                // count how many items they have in their inventory were the item ID matches
+                // if the count is less than the count from the passed in parameter then return false
+                // Player does not have enough items to complete quest
+                if (Inventory.Count(i => i.ItemTypeID ==item.ItemID) <item.Quantity)
+                {
+                    return false;
+                }
+            }
+            // if we get through all items in player's inventory and none of them return false
+            // that means the player has enough of the item/ has all the items, so return true.
+            return true;
+        }
     }
 }
