@@ -21,12 +21,14 @@ namespace Engine.Factories
 
             newWorld.AddLocation(-1, -1, "Farmer's House", "This is the house of your neighbour, Farmer James.",
                 "Farmhouse.png");
+            newWorld.LocationAt(-1, -1).TraderHere = TraderFactory.GetTraderByName("Farmer Jeb");
 
             newWorld.AddLocation(0, -1, "Home", "This is your home.", 
                 "Home.png");
 
             newWorld.AddLocation(-1, 0, "Trading Shop", "This is the shop for trading, Mary runs this place.",
                  "Trader.png");
+            newWorld.LocationAt(-1, 0).TraderHere = TraderFactory.GetTraderByName("Mary-Anne");
 
             newWorld.AddLocation(0, 0, "Town Sqaure", "The heart of the town, in the middle there is a fountain.",
                  "TownSquare.png");
@@ -41,6 +43,7 @@ namespace Engine.Factories
 
             newWorld.AddLocation(0, 1, "Herbalist's Hut", "A small quaint hut that has herbs drying from the roof.",
                 "HerbalistsHut.png");
+            newWorld.LocationAt(0, 1).TraderHere = TraderFactory.GetTraderByName("Lily The Herbilist");
 
             newWorld.LocationAt(0, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestID(1)); //no need for temp variable
 

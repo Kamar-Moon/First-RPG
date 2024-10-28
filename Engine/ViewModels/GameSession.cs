@@ -20,6 +20,7 @@ namespace Engine.ViewModels
 
         private Location _currentLocation;
         private Monster _currentMonster;
+        private Trader _currentTrader; // backing variable for CurrentTrader property
         public Player CurrentPlayer { get; set; } 
         public World CurrentWorld { get; set; }
         public Location CurrentLocation
@@ -39,6 +40,7 @@ namespace Engine.ViewModels
                 CompleteQuestsAtLocation();
                 GivePlayerQuestAtLocation();
                 GetMonsterAtLocation();
+                CurrentTrader = CurrentLocation.TraderHere;
             }
         }
 
@@ -57,6 +59,18 @@ namespace Engine.ViewModels
                     RaiseMessage(""); // Create a blank line between messages
                     RaiseMessage($"You see a {CurrentMonster.Name} here!");
                 }
+            }
+        }
+
+        public Trader CurrentTrader
+        {
+            get { return _currentTrader; }
+            set
+            {
+                _currentTrader = value;
+
+                OnPropertyChanged(nameof(CurrentTrader));
+                OnPropertyChanged(nameof(HasTrader));
             }
         }
 
@@ -79,7 +93,8 @@ namespace Engine.ViewModels
             CurrentWorld.LocationAt(CurrentLocation.xCoordinate, CurrentLocation.yCoordinate - 1) != null;
        
 
-        public bool HasMonster => CurrentMonster != null;  // Doing => is the same as doing HasLocation gets above
+        public bool HasMonster => CurrentMonster != null;  // Doing => is the same as doing HasLocation "gets" 
+        public bool HasTrader => CurrentTrader != null;
 
         public GameSession()
         {
